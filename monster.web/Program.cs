@@ -15,16 +15,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        db.Database.Migrate();
-    }
-    catch (Exception ex)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Error al aplicar migraciones: {Message}", ex.Message);
-        // No relanzar — la app arranca aunque falle la migración
-    }
+    db.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
