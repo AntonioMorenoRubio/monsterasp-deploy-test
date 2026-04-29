@@ -18,12 +18,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         db.Database.Migrate();
-        Console.WriteLine("✅ Migraciones aplicadas correctamente.");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"❌ Error en migración: {ex.Message}");
-        throw; // Para que el deploy falle visiblemente
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Error al aplicar migraciones: {Message}", ex.Message);
+        // No relanzar — la app arranca aunque falle la migración
     }
 }
 
