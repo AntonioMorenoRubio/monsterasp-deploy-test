@@ -21,10 +21,11 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      - name: Inject production connection string
+        run: echo '{"ConnectionStrings":{"SqlServer":"${{ secrets.SQLSERVER_CONNECTIONSTRING }}"}}' > ./monster.web/appsettings.Production.json
+
       - name: Publish
         run: dotnet publish --configuration Release --output ./publish --runtime win-x86
-        env:
-          ConnectionStrings__SqlServer: ${{ secrets.SQLSERVER_CONNECTIONSTRING }}
         
       - name: Test with .NET
         run: dotnet test
