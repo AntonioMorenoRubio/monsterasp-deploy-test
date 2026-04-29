@@ -15,7 +15,16 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate();
+        Console.WriteLine("✅ Migraciones aplicadas correctamente.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Error en migración: {ex.Message}");
+        throw; // Para que el deploy falle visiblemente
+    }
 }
 
 // Configure the HTTP request pipeline.
