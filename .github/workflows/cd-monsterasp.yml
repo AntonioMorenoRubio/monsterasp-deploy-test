@@ -3,7 +3,6 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
-
 jobs:
   build_and_deploy:
     runs-on: windows-latest
@@ -14,21 +13,24 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-          
+
       - name: Install dependencies
         run: dotnet restore
-        
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      - name: Test with .NET
+        run: dotnet test
+
       - name: Inject production connection string
-        run: echo '{"ConnectionStrings":{"SqlServer":"${{ secrets.SQLSERVER_CONNECTIONSTRING }}"}}' > ./monster.web/appsettings.Production.json
+        run: |
+          $json = '{"ConnectionStrings":{"SqlServer":"${{ secrets.SQLSERVER_CONNECTIONSTRING }}"}}'
+          $json | Out-File -FilePath ./monster.web/appsettings.Production.json -Encoding utf8
+        shell: pwsh
 
       - name: Publish
         run: dotnet publish --configuration Release --output ./publish --runtime win-x86
-        
-      - name: Test with .NET
-        run: dotnet test
 
       - name: Deploy to MonsterASP.NET via WebDeploy
         uses: rasmusbuchholdt/simply-web-deploy@2.1.0
