@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using monster.web.Data;
+using monster.web.Data.DAO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerLocal"))
+);
+
+builder.Services.AddScoped<BarcoDao>();    
 
 var app = builder.Build();
 

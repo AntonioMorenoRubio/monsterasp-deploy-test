@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using monster.web.Controllers;
 
 namespace monster.web.Domain.Entities;
 
@@ -8,5 +9,5 @@ public class Barco
     public string Nombre { get; set; } = string.Empty;
     public string Nacion { get; set; } = string.Empty;
     public int Nivel { get; set; }
-    public string Tipo { get; set; } = string.Empty;
+    public TipoBarco Tipo { get; set; } = TipoBarco.Destructor;
 }

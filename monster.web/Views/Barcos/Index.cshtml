@@ -1,0 +1,53 @@
+@model IEnumerable<monster.web.Domain.Entities.Barco>
+
+@{
+    ViewData["Title"] = "Barcos: Índice";
+}
+
+<h1>Índice</h1>
+
+<p>
+    <a asp-action="Create">Crear Nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nivel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nivel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                | <a asp-action = "Edit" asp-route-id = "@item.Id" > Editar </a >
+                | <a asp-action = "Delete" asp-route-id = "@item.Id" > Borrar </a >
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
